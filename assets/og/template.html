@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Public+Sans:wght@300;400;600&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#002045",
+        "primary-container": "#1a365d",
+        "on-primary-container": "#86a0cd",
+        "secondary": "#0a6c44",
+        "secondary-fixed": "#9ff5c1",
+        "on-surface-variant": "#43474e",
+        "outline": "#74777f",
+        "outline-variant": "#c4c6cf",
+      },
+      fontFamily: {
+        "headline": ["Inter"],
+        "body": ["Public Sans"],
+        "label": ["Space Grotesk"],
+      },
+    },
+  },
+}
+</script>
+<style>
+body { margin: 0; font-family: 'Public Sans', sans-serif; }
+h1, h2, h3 { font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body>
+<!-- OG image is 1200x630 -->
+<div id="og-card" style="width: 1200px; height: 630px;" class="bg-primary flex flex-col justify-between p-16">
+  <!-- Top: site name -->
+  <div class="flex items-center justify-between">
+    <span class="font-label text-sm uppercase tracking-[0.3em] text-white/40">capccode.github.io</span>
+    <div class="flex gap-3" id="tags">
+      <!-- Tags injected by script -->
+    </div>
+  </div>
+
+  <!-- Middle: title + description -->
+  <div class="flex-1 flex flex-col justify-center">
+    <h1 id="title" class="text-7xl font-black tracking-tighter leading-[0.9] text-white mb-6"></h1>
+    <p id="description" class="text-2xl text-on-primary-container max-w-3xl leading-relaxed"></p>
+  </div>
+
+  <!-- Bottom: metadata -->
+  <div class="flex items-center justify-between">
+    <span id="meta" class="font-label text-sm text-white/40 uppercase tracking-widest"></span>
+    <span class="font-label text-sm text-white/40 uppercase tracking-widest">Field Notes</span>
+  </div>
+</div>
+
+<script>
+// Read params from URL query string
+const params = new URLSearchParams(window.location.search);
+const title = params.get('title') || 'Report Title';
+const description = params.get('description') || '';
+const tags = (params.get('tags') || '').split(',').filter(Boolean);
+const meta = params.get('meta') || '';
+
+document.getElementById('title').textContent = title;
+document.getElementById('description').textContent = description;
+document.getElementById('meta').textContent = meta;
+
+const tagsContainer = document.getElementById('tags');
+tags.forEach((tag, i) => {
+  const span = document.createElement('span');
+  span.className = i === 0
+    ? 'bg-white/10 px-3 py-1 text-xs font-label text-white/70 uppercase tracking-widest'
+    : 'bg-secondary/30 px-3 py-1 text-xs font-label text-secondary-fixed uppercase tracking-widest';
+  span.textContent = tag.trim();
+  tagsContainer.appendChild(span);
+});
+</script>
+</body>
+</html>
